@@ -19,7 +19,7 @@
     </select>
 
     <img id="player_img">
-    </img>
+    
     <table class="table">
         <thead>
             <tr>
@@ -94,10 +94,10 @@
             let t = player_sel.options[player_sel.selectedIndex].text;
 
             let curr_player = players.find(p => p.Name === t);
-            console.log(curr_player.PhotoUrl);
+            console.log(curr_player.Photo);
 
             let player_img = document.getElementById("player_img");
-            player_img.src = curr_player.PhotoUrl;
+            player_img.src = curr_player.Photo;
 
             let player_speed = document.getElementById("player_position");
             player_position.innerHTML = curr_player.Position;
