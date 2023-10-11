@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Fifa Team Manager</title>
+    <script src="data/teams_fifa22.js"></script>
+    <script src="data/players_fifa23.js"></script>
+</head>
+
+<body>
+    Press <b>F12</b> to see the results
+    <br /><br /><br /><br /><br />
+
+    <select id="teams" onchange="change_teams">
+    </select>
+
+    <select id="team_members" onchange="change_players">
+    </select>
+
+    <img id="player_img">
+    </img>
+    <table class="table">
+        <thead>
+            <tr>
+                <th> Position </th>
+                <th> Potential </th>
+                <th> Value </th>
+                <th> Age </th>
+                <th> Height </th>
+                <th> Overall </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>
+                    <div id=player_position></div>
+                </th>
+                <th>
+                    <div id=player_potential></div>
+                </th>
+                <th>
+                    <div id=player_value></div>
+                </th>
+                <th>
+                    <div id=player_age></div>
+                </th>
+                <th>
+                    <div id=player_height></div>
+                </th>
+                <th>
+                    <div id=player_overall></div>
+                </th>
+            </tr>
+        </tbody>
+    </table>
+
+    <div>
+        <button id="add_to_team1" onclick="add_to_team1">Add to team 1 </button>
+
+        <button id="add_to_team2" onclick="add_to_team2">Add to team 2</button>
+
+    </div>
+    <div>
+        <button id="remove_from_team1" onclick="remove_from_team1">Remove from team 1</button>
+
+        <button id="remove_from_team2" onclick="remove_from_team2">Remove from team 2</button>
+    </div>
+    <div>
+        <select id="team1" onchange="change_team_players"></select>
+
+        <select id="team2" onchange="change_team_players"></select>
+    </div>
+
+    <script>
+        //TODO: Aufgabe machen
+        function change_teams(e) {
+            let teams_sel = e.target; //which team is now selected
+            let v = teams_sel.value; //get the value of the selected team for further queries
+            let t = teams_sel.options[teams_sel.selectedIndex].text; //which text is associated with the value
+            console.log(v + t + e);
+
+            let team_members_sel = document.getElementById("team_members");
+            let current_players = players.filter(p => p.Club === t); //get all players of the selected team
+            console.log(current_players);
+            team_members_sel.innerHTML = ""; //clear the player option box
+            current_players.forEach(d => team_members_sel.add(new Option(d.Name, d
+            .ID))); //add all players to the option box
+        }
+
+        function change_players(e) {
+            let player_sel = e.target;
+            let v = player_sel.value;
+            let t = player_sel.options[player_sel.selectedIndex].text;
+
+            let curr_player = players.find(p => p.Name === t);
+            console.log(curr_player.PhotoUrl);
+
+            let player_img = document.getElementById("player_img");
+            player_img.src = curr_player.PhotoUrl;
+
+            let player_speed = document.getElementById("player_position");
+            player_position.innerHTML = curr_player.Position;
+
+            let player_potential = document.getElementById("player_potential");
+            player_potential.innerHTML = curr_player.Potential;
+
+            let player_value = document.getElementById("player_value");
+            player_value.innerHTML = curr_player.Value;
+
+            let player_age = document.getElementById("player_age");
+            player_age.innerHTML = curr_player.Age;
+
+            let player_height = document.getElementById("player_height");
+            player_height.innerHTML = curr_player.Height;
+
+            let player_overall = document.getElementById("player_overall");
+            player_overall.innerHTML = curr_player.Overall;
+
+        }
+
+        function add_to_team1(e) {
+            let player_chosen = document.getElementById("team_members");
+            let t = player_chosen.options[player_chosen.selectedIndex].text;
+
+            let team1 = document.getElementById("team1");
+            let team2 = document.getElementById("team2");
+            if (!(optionExists(team1, t) || optionExists(team2, t))) {
+                team1.add(new Option(t));
+            }
+        }
+
+        function add_to_team2(e) {
+            let player_chosen = document.getElementById("team_members");
+            let t = player_chosen.options[player_chosen.selectedIndex].text;
+
+            let team1 = document.getElementById("team1");
+            let team2 = document.getElementById("team2");
+            if (!(optionExists(team1, t) || optionExists(team2, t))) {
+                team2.add(new Option(t));
+            }
+        }
+
+        function remove_from_team1(e) {
+            let team1 = document.getElementById("team1");
+            team1.remove(team1.selectedIndex);
+        }
+
+        function remove_from_team2(e) {
+            let team2 = document.getElementById("team2");
+            team2.remove(team2.selectedIndex);
+        }
+
+        function change_team_players(e) {
+            let player_chosen = e.target;
+            let v = player_chosen.value;
+            let t = player_chosen.options[player_sel.selectedIndex].text;
+        }
+        //https://askcodes.net/coding/check-if-an-option-exist-in-select-element-without-jquery- ==> 7. Antwort
+        function optionExists(selectElement, optionValue) {
+            return !!Array.prototype.find.call(selectElement.options, function (option) {
+                return option.value === optionValue;
+            })
+        }
+
+        /**
+         * @param {HTMLSelectElement} selectElement
+         * @param {string} optionValue
+         * @return {boolean}
+         */
+
+        //console.log(teams);
+        //console.log(players[10]);
+
+        //fill the teams option box with the team names
+        let teams_sel = document.getElementById("teams");
+        teams.forEach(d => teams_sel.add(new Option(d.Name, d.ID)));
+        teams_sel.addEventListener("change", change_teams);
+
+        let team_members_sel = document.getElementById("team_members");
+        team_members_sel.addEventListener("change",
+        change_players); //this is another way how to add an eventlistener to the option box
+
+        let team1 = document.getElementById("team1");
+        team1.addEventListener("change", change_team_players);
+
+        let team2 = document.getElementById("team2");
+        team2.addEventListener("change", change_team_players);
+
+        let add_team1 = document.getElementById("add_to_team1");
+        add_team1.addEventListener("click", add_to_team1);
+
+        let add_team2 = document.getElementById("add_to_team2");
+        add_team2.addEventListener("click", add_to_team2);
+
+        let remove_team1 = document.getElementById("remove_from_team1");
+        remove_team1.addEventListener("click", remove_from_team1);
+
+        let remove_team2 = document.getElementById("remove_from_team2");
+        remove_team2.addEventListener("click", remove_from_team2);
+    </script>
+</body>
+
+</html>
