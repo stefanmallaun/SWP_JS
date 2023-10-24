@@ -1,5 +1,7 @@
 var enemies = []
 
+let highScore = localStorage.getItem("highScore") || 0;
+
 let game = {
     canvas: document.getElementById("area"),
     start () {
@@ -43,6 +45,9 @@ let game = {
 function startGame() {
     game.start();
 }
+function restartGame(){
+    game.restartGame();
+}
 
 
 function sprite(width, height, image, x, y) {
@@ -64,19 +69,19 @@ function sprite(width, height, image, x, y) {
 
 function redraw() {
   game.clear();
-  game.player.x += 1;
+  //game.player.x += 1;
   switch (game.keyCode) {
    case 65: //left
        game.player.x -= 2;
       break;
    case 87: //up
-       game.player.y -= 1;
+       game.player.y -= 2;
       break;
    case 68: //right
-        game.player.x += 1;
+        game.player.x += 2;
       break;
    case 83: //down
-       game.player.y += 1;
+       game.player.y += 2;
       break;
    }
    if(game.player.x > game.canvas.width - 30) {
@@ -117,7 +122,11 @@ function checkCollision() {
     game.bonus.forEach((e) => {
         if(Math.abs(game.player.x - e.x) < distance && Math.abs(game.player.y - e.y) < distance) {
             game.bonus.splice(game.bonus.indexOf(e), 1); 
-            game.score += 10; 
+            game.score += 10;
+            if (game.score > highScore) {
+                highScore = game.score;
+                localStorage.setItem("highScore", highScore);
+            } 
         }
     }); 
     game.enemies.forEach((e) => {
@@ -129,12 +138,12 @@ function checkCollision() {
 
 function drawScore() {
     ctx.font = "18px Arial";
-    ctx.strokeText("Score: " + game.score, 100, 50); 
+    ctx.strokeText("Score: " + game.score +  " | High Score: " + highScore, 50, 50); 
 }
 
 function drawTime() {
     ctx.font = "18px Arial";
-    ctx.strokeText("Time: " + game.time, 200, 50); 
+    ctx.strokeText("Time: " + game.time, 300, 50); 
 }
 
 
@@ -161,9 +170,5 @@ function newBonus()
 
 function updateTimer() {
     game.time += 1;  
-    game.score += 1;  
-    if (game.score > 200){
-    game.restartGame();
-    }
-    
+    game.score += 1;
 }
