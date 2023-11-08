@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<script src="https://unpkg.com/vue@3"></script>
+<script src="js\wordlist.js"></script>
+<link rel="stylesheet" href="css\hangman.css" />
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Hangman</title>
+  </head>
+  <body></body>
+  <div class="overall-look">
+    <div class="game-look" id="app">
+      <div>Highscore: {{highscore}}</div>
+      <div>Past scores: {{past_scores}}</div>
+      <div>Score: {{score}}</div>
+      <div>Time: {{time}}</div>
+      <div>Mistakes: {{mistakes}}</div>
+      <br />
+      <div>{{found_letters}}</div>
+      <div v-if="cheat">{{solution}}</div>
+      <br />
+      <br />
+      <button class = "button-look" v-for="letter in letters" @click="on_button_click">
+        {{letter}}
+      </button>
+      <br />
+      <br />
+      <img v-bind:src="img" v-bind:width="img_width" />
+
+      <div>{{end_msg}}</div>
+
+      <br />
+      <br />
+      <button class="button-look" @click="reset_game">Reset Game</button>
+    </div>
+  </div>
+</html>
+
+<script>
+  const { createApp } = Vue;
+  createApp({
+    data() {
+      return {
+        words: wordlist,
+        letters: Array.from(Array(26)).map((e, i) =>
+          String.fromCharCode(i + 65)
+        ),
+        highscore: 0,
+        past_scores: [],
+        score: 0,
+        time: 0,
+        solution: "",
+        added_points: 100,
+        mistakes: 0,
+        img: "",
+        end_msg: "",
+        found_letters: "",
+        cheat: false,
+        interval: undefined,
+      };
+    },
+    methods: {
+      on_button_click(e) {
+        this.letters.map((x) =>
+          x == e.target.innerText
+            ? this.letters.splice(this.letters.indexOf(x), 1)
+            : null
+        );
+        value = e.target.innerText.toLowerCase();
+        if (this.solution.includes(value)) {
+          this.score += this.added_points + Math.round(1000 / this.time);
+          temp = this.solution;
+          rounds = this.solution.length;
+          for (let i = 0; i < rounds; i++) {
+            if (temp[i] === value) {
+              index = temp.indexOf(value);
+              this.found_letters = this.found_letters.substring(0, index) + value + this.found_letters.substring(index + value.length);
+              temp = temp.substring(0, index) + " " + temp.substring(index + 1);
+              console.log(this.found_letters);
+            }
+          }
+          if (this.found_letters === this.solution) {
+            this.end_msg = "Congratulations, you won!";
+            this.score += this.solution.length * 10;
+            this.save_highscore(this.score);
+            console.log(this.end_msg)
+            this.reset_game();
+          }
+        } else {
+          this.mistakes++;
+          this.img = "./img/" + this.mistakes + ".jpg";
+          if (this.mistakes == 10) {
+            this.end_msg = "Better luck next time!";
+            console.log(this.end_msg)
+            this.reset_game();
+          }
+        }
+      },
+      reset_game() {
+        (this.letters = Array.from(Array(26)).map((e, i) => String.fromCharCode(i + 65))),
+          (this.score = 0),
+          (this.time = 0),
+          (this.solution = ""),
+          (this.mistakes = 0),
+          (this.img = ""),
+          (this.end_msg = ""),
+          (this.found_letters = ""),
+          (this.cheat = false),
+          clearInterval(this.interval);
+        this.start_game();
+        console.log("reset");
+      },
+      start_game() {
+        this.solution = wordlist[Math.floor(Math.random() * this.words.length)];
+        for (let i = 0; i < this.solution.length; i++) {
+          this.found_letters += "_";
+        }
+
+        this.interval = setInterval(this.time_counter, 1000);
+        this.img = "./img/" + this.mistakes + ".jpg";
+        
+        this.highscore = localStorage.getItem("highscore");
+        
+      },
+      time_counter(){
+        this.time++
+      },
+      save_highscore(score) {
+        let highscore = localStorage.getItem("highscore");
+        let past_scores = localStorage.getItem("past_scores");
+        if (highscore < score) {
+          localStorage.setItem("highscore", JSON.stringify(Number(score)));
+        }
+        console.log(past_scores);
+        this.past_scores.push(score);
+        localStorage.setItem("past_scores", JSON.stringify(this.past_scores));
+        console.log(highscore);
+      },
+    },
+    created: function () {
+      this.start_game();
+    },
+    mounted() {
+      window.addEventListener("keypress", (e) => {
+        console.log(e.key);
+        if (e.key == "#") {
+          this.cheat = !this.cheat;
+        }
+      });
+    },
+  }).mount("#app");
+</script>

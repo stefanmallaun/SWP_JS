@@ -1,0 +1,16 @@
+.game-look{
+    font-size: large;
+    font-weight: bold;
+    
+}
+.orverall-look{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+.button-look{
+    font-weight: bold;
+    margin:0.1%;
+    min-height: 10px;
+    min-width: 10px;
+}
