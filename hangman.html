@@ -69,7 +69,8 @@
         );
         value = e.target.innerText.toLowerCase();
         if (this.solution.includes(value)) {
-          this.score += this.added_points + Math.round(1000 / this.time);
+            const timeBonus = this.time > 0 ? Math.round(1000 / this.time) : 0;
+            this.score += this.added_points + timeBonus;
           temp = this.solution;
           rounds = this.solution.length;
           for (let i = 0; i < rounds; i++) {

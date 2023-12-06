@@ -1,16 +1,75 @@
-.game-look{
-    font-size: large;
-    font-weight: bold;
-    
+/* Reset default styles */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+
+/* Styling for the game container */
+.game-look {
+  background-color: #f0f0f0;
+  border: 2px solid #333;
+  padding: 20px;
+  text-align: center;
+  width: 100%; /* Set the width to 100% */
+  max-width: 400px;
+  margin: 0 auto;
+  aspect-ratio: 1; /* Create a 1:1 aspect ratio square */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-.orverall-look{
-    display:flex;
-    justify-content: center;
-    align-items: center;
+
+/* Styling for game info */
+.game-look div {
+  margin: 10px 0;
+  font-size: 18px;
 }
-.button-look{
-    font-weight: bold;
-    margin:0.1%;
-    min-height: 10px;
-    min-width: 10px;
+
+/* Styling for the letters */
+.button-look {
+  background-color: #007bff;
+  color: #fff;
+  font-size: 20px;
+  padding: 10px 20px;
+  margin: 5px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
 }
+
+.button-look:hover {
+  background-color: #0056b3;
+}
+
+/* Styling for the Hangman image */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Styling for the end message */
+.end-msg {
+  font-size: 24px;
+  font-weight: bold;
+  color: #f00;
+}
+
+/* Styling for the Reset Game button */
+.button-look.reset-button {
+  background-color: #28a745;
+}
+
+.button-look.reset-button:hover {
+  background-color: #1e7e34;
+}
+
+/* Styling for the overall container */
+.overall-look {
+  background-color: #444;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Add any additional styles you like to customize the game further */
