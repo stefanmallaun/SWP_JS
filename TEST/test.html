@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Example 01: Difference between let and var</title>
+</head>
+<body>
+Press <b>F12</b> to see the results
+<script>
+
+var a; //Erzeugt globale Variablen (gefährlich)
+let b; //Erzuegt Variablen im aktuellen Scope (Scihtbarkeitsbereich)
+const c = "Heyo"; //Konstante, die am Anfang der Programms festgel
+
+
+//console.log(typeof c); //Sehen, welcher Typ die Variable ist
+
+Number('3,15'); //Macht aus einem String eine Zahl
+String(123); //Macht aus einer Zahl einen String
+
+document.write("Ohne Zeilenumbruch"); //wenn man direkt was auf die Seite anzeigen will
+document.writeln("Mit Zeilenumbruch");
+
+
+//let v1 = document.getElementById("b1"); //Wenn man ein Text an eine bestimmte Stelle einfügen will
+//v1.innerHTML="xxx";
+
+for(let i=0; i<10; i++){
+    console.log(i);
+}
+
+
+</script>
+<body>
+    
+<!--<div id="b1">Hey</div> !-->
+
+</body>

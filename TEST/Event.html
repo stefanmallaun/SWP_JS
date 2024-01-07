@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<head>
+
+</head>
+<body>
+    <button id="b1" onclick="anyFunction()">Click me!</button>
+
+</body>
+
+<script>
+    //es gibt:
+    //      -Mouse-Events
+    //      -Keyboard-Events
+    //      -Allgemeine
+    //      -Form Events
+
+
+    let b1 = document.getElementById('b1');
+    b1.onclick = function(){
+        for (let i = 0; i< 10; i++){
+            console.log(i);
+        }
+    }
+    //oder
+    //b1.addEventListener("click", myscript);
+    //b1.removeEventListener("click", myscript); löscht die Registrierung wieder
+
+    window.onload = function(){
+        for (let i = 10; i < 20; i++){
+            console.log(i);
+        }
+    }
+</script>
