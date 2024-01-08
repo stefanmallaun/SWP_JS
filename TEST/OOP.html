@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<head>
+
+</head>
+<body>
+
+</body>
+<script>
+    function Person(firstname, lastname){
+        this.firstname = firstname;
+        this.lastname = lastname;
+    }
+    let p1 = new Person("a", "b");
+
+class Persona{
+    constructor(f_name, l_name){
+        this.f_name = f_name;
+        this.l_name = l_name;
+    }
+    name(){
+        return this.f_name + " " + this.l_name;
+    }
+}
+p1 = new Persona("a", "b");
+console.log(p1);
+
+
+// Vererbung;
+
+class Student extends Persona{
+    constructor(f_name, l_name, age){
+        super(f_name, l_name);
+        this.age = age;
+    }
+
+    print(){
+        return super.name() + " " + this.age;
+    }
+}
+
+let s1 = new Student("a", "b", 12);
+
+console.log(s1);
+
+
+//####################################
+// Anonym class
+
+let i1 = {
+    firstname : "a",
+    lastname : "b",
+    depart: {
+        name : "A",
+        address: "a",
+        print(){
+            console.log(this.name, this.address);
+        }
+    },
+    print(){
+        this.depart.print();
+        console.log(this.firstname, this.lastname);
+    }
+
+}
+
+</script>
